@@ -1,0 +1,16 @@
+.git
+.pytest_cache
+.ruff_cache
+__pycache__
+*.pyc
+.venv
+tests
+docs
+*.log
+secrets
+browser-profile
+config/vpn
+*.conf
+*.ovpn
+*.key
+*.pem

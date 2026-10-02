@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+# Author: DrPlaga
+set -eu
+
+SOURCE=$0
+while [ -L "$SOURCE" ]; do
+  SOURCE_DIR=$(CDPATH='' cd -- "$(dirname -- "$SOURCE")" && pwd)
+  TARGET=$(readlink "$SOURCE")
+  case "$TARGET" in
+    /*) SOURCE=$TARGET ;;
+    *) SOURCE=$SOURCE_DIR/$TARGET ;;
+  esac
+done
+
+SCRIPT_DIR=$(CDPATH='' cd -- "$(dirname -- "$SOURCE")" && pwd)
+PYTHON=${PYTHON:-python3}
+
+VPN_BROWSER_CONFIG_DIR=${VPN_BROWSER_CONFIG_DIR:-"$SCRIPT_DIR/config/vpn"}
+VPN_BROWSER_DATA_DIR=${VPN_BROWSER_DATA_DIR:-"$SCRIPT_DIR/config/vpn/data"}
+PYTHONPATH="$SCRIPT_DIR/src${PYTHONPATH:+:$PYTHONPATH}"
+export VPN_BROWSER_CONFIG_DIR
+export VPN_BROWSER_DATA_DIR
+export PYTHONPATH
+
+exec "$PYTHON" -m vpn_browser "$@"

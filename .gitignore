@@ -1,0 +1,28 @@
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+.coverage
+htmlcov/
+
+# Local user data and generated runtime files
+.env
+*.log
+settings.json
+secrets/
+browser-profile/
+config/vpn/
+*.conf
+*.ovpn
+*.key
+*.pem
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

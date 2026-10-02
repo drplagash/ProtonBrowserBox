@@ -1,0 +1,79 @@
+{
+  "policies": {
+    "DisableAppUpdate": true,
+    "DisableCrashReporter": true,
+    "DisableFirefoxAccounts": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DisableTelemetry": true,
+    "DontCheckDefaultBrowser": true,
+    "NoDefaultBookmarks": true,
+    "OfferToSaveLogins": false,
+    "Preferences": {
+      "browser.captivePortalService.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.newtabpage.activity-stream.feeds.telemetry": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.newtabpage.activity-stream.telemetry": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.ping-centre.telemetry": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.safebrowsing.downloads.remote.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "dom.security.https_only_mode": {
+        "Value": true,
+        "Status": "default"
+      },
+      "geo.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "media.peerconnection.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.dns.disablePrefetch": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "network.http.speculative-parallel-limit": {
+        "Value": 0,
+        "Status": "locked"
+      },
+      "network.predictor.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.prefetch-next": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.trr.mode": {
+        "Value": 5,
+        "Status": "locked"
+      },
+      "signon.rememberSignons": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "toolkit.telemetry.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "toolkit.telemetry.unified": {
+        "Value": false,
+        "Status": "locked"
+      }
+    }
+  }
+}

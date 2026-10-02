@@ -1,0 +1,93 @@
+# Author: DrPlaga
+
+name: vpn-browser
+
+services:
+  vpn:
+    image: qmcgaw/gluetun:v3.41.3
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      VPN_SERVICE_PROVIDER: protonvpn
+      VPN_TYPE: wireguard
+      FREE_ONLY: "on"
+      WIREGUARD_PRIVATE_KEY_SECRETFILE: /run/secrets/wireguard_private_key
+      FIREWALL_INPUT_PORTS: "5800"
+      HEALTH_SERVER_ADDRESS: 127.0.0.1:9999
+      HEALTH_RESTART_VPN: "on"
+    secrets:
+      - wireguard_private_key
+    ports:
+      - name: browser
+        target: 5800
+        published: "${VPN_BROWSER_WEB_PORT:-5800}"
+        host_ip: 127.0.0.1
+        protocol: tcp
+        app_protocol: http
+        mode: host
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: "1"
+      net.ipv6.conf.default.disable_ipv6: "1"
+    pids_limit: 256
+    mem_limit: "${VPN_BROWSER_VPN_MEMORY_MB:-256}m"
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+
+  browser:
+    build:
+      context: ./browser
+    image: vpn-browser-browser:local
+    network_mode: "service:vpn"
+    depends_on:
+      vpn:
+        condition: service_healthy
+    user: "1000:1000"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=512m,mode=1777
+      - /run:size=64m,mode=0755
+    volumes:
+      - type: bind
+        source: ${VPN_BROWSER_PROFILE_DIR:-./browser-profile}
+        target: /home/browser/.mozilla/firefox
+    shm_size: 256m
+    pids_limit: 512
+    mem_limit: "${VPN_BROWSER_BROWSER_MEMORY_MB:-2048}m"
+    logging:
+      driver: json-file
+      options:
+        max-size: 5m
+        max-file: "3"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python3",
+          "-c",
+          "import socket; socket.create_connection(('127.0.0.1', 5800), 2).close()",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+
+secrets:
+  wireguard_private_key:
+    file: ${VPN_BROWSER_WIREGUARD_PRIVATE_KEY_FILE:-./config/examples/wireguard_private_key.example}
