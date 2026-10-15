@@ -1,4 +1,4 @@
-# Author: DrPlaga
+# Copyright (c) 2026 DrPlaga. Licencia MIT (ver LICENSE).
 
 from vpn_browser.config import Settings
 from vpn_browser.docker import COMPOSE_FILE, compose_env, prepare_compose_override

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Author: DrPlaga
+# Copyright (c) 2026 DrPlaga. Licencia MIT (ver LICENSE).
 from __future__ import annotations
 
 import json

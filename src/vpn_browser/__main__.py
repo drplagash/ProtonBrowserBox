@@ -1,4 +1,4 @@
-# Author: DrPlaga
+# Copyright (c) 2026 DrPlaga. Licencia MIT (ver LICENSE).
 
 from vpn_browser.cli import main
 

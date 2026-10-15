@@ -2,12 +2,18 @@
 
 ![ProtonBrowserBox](docs/cover.jpg)
 
-**Author: DrPlaga · MIT License**
-
 Firefox ESR in a container, accessible from your local browser and connected to
 Proton VPN through Gluetun. Compatible with **OpenVPN TCP/443** and **WireGuard**.
 The browser shares the VPN container's network and starts once the VPN passes
 its health check.
+
+## The problem
+
+Running a whole-machine VPN is overkill when you only want one browsing session to go through it, and a VPN app can drop silently and leak your real IP while the browser keeps working. Setting up a browser that is guaranteed to use the VPN, and to stop when it fails, means wiring containers, a kill switch, credentials and profiles by hand.
+
+ProtonBrowserBox does that wiring for you: a Firefox in a container that shares the network of a Gluetun/Proton VPN container, so it only runs while the VPN is healthy and its traffic cannot bypass the tunnel. One script sets it up, and the rest of your machine keeps its normal connection.
+
+## How it works
 
 ```text
 Your local browser -> 127.0.0.1:5800 -> Firefox in the container
@@ -261,7 +267,14 @@ isn't accessible to your user, or the VM has no `/dev/net/tun`, that's a host
 requirement you need to fix. The project manages permissions on its own
 configuration files automatically.
 
-## Scope and status
+## Scope and safety
+
+- The launcher only manages its own containers and the files under `config/vpn/`. It does not install Docker or change your machine's networking.
+- Credentials stay local, with restricted file permissions, and are never sent anywhere except to Proton through the VPN client. `config/vpn/` is excluded from Git.
+- The web interface is published only on `127.0.0.1` and has no authentication; do not expose that port to the Internet or your LAN.
+- Use it with your own Proton account and within Proton's terms of service.
+
+## Known limitations
 
 Early version, under active development. OpenVPN TCP/443 was tested manually
 during development. Automated tests check code and the Compose structure;
@@ -294,3 +307,11 @@ VPN_BROWSER_PROTON_CONF=/private/path/proton.conf scripts/integration-test.sh
 See [installation](docs/install.md), [troubleshooting](docs/troubleshooting.md),
 [architecture](docs/architecture.md), [testing](docs/testing.md),
 [security](docs/security.md) and [contributing](CONTRIBUTING.md).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
+
+## Author
+
+DrPlaga

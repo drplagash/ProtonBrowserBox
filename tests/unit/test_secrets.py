@@ -1,4 +1,4 @@
-# Author: DrPlaga
+# Copyright (c) 2026 DrPlaga. Licencia MIT (ver LICENSE).
 
 import stat
 from pathlib import Path
