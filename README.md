@@ -1,5 +1,7 @@
 # ProtonBrowserBox
 
+![ProtonBrowserBox](docs/cover.jpg)
+
 **Author: DrPlaga · MIT License**
 
 Firefox ESR in a container, accessible from your local browser and connected to
